@@ -4,7 +4,6 @@ import createPersistPlugin, { getPersistor } from '@rematch/persist';
 import createLoadingPlugin from '@rematch/loading';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as models from '../models';
-
 // Create plugins
 const persistPlugin = createPersistPlugin({
   version: 2,

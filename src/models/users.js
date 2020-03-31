@@ -66,21 +66,6 @@ export default {
    * Reducers
    */
   reducers: {
-    /**
-     * Replace list in store
-     * @param {obj} state
-     * @param {obj} payload
-     */
-    replace(state, payload) {
-      let newList = null;
-      const { data, headers, page } = payload;
-
-      return data
-        ? {
-          ...state
-        }
-        : initialState;
-    },
 
 
   },

@@ -36,32 +36,58 @@ export default {
         }
 
         return data;*/
-        return initialState[0];
+        return initialState.myProducts;
       } catch (error) {
         throw HandleErrorMessage(error);
       }
     },
+
+    /**
+     * Get a single item from the API
+     * @returns {Promise[obj]}
+     */
+    async deleteProduct(id) {
+      try {
+        //API delete productTypeName
+        dispatch.products.deleteReduxProduct(id)
+        return initialState.myProducts.filter((product,ind) => ind != 1);
+        //return initialState[0];
+      } catch (error) {
+        throw HandleErrorMessage(error);
+      }
+    },
+
+    /**
+     * Save date to redux store
+     * @param {obj} data
+     * @returns {Promise[obj]}
+     */
+    async save(data) {
+      try {
+        console.log(data)
+        //call to API to save new product
+        return successMessages.defaultForm; // Message for the UI
+      } catch (error) {
+        throw HandleErrorMessage(error);
+      }
+    },
+
   }),
 
   /**
    * Reducers
    */
   reducers: {
-    /**
-     * Replace list in store
-     * @param {obj} state
-     * @param {obj} payload
-     */
-    replace(state, payload) {
-      let newList = null;
-      const { data, headers, page } = payload;
 
-      return data
-        ? {
-          ...state
-        }
-        : initialState;
+    deleteReduxProduct(state, id) {
+      console.log(state)
+      let myProducts = state.myProducts.filter(product => product.id != id)
+      return {
+        ...state,
+        myProducts : myProducts
+      };
     },
+
 
 
   },

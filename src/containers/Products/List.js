@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProductsList from '../../components/Products/List';
-
+import { Actions } from 'react-native-router-flux';
 class ProductsListContainer extends Component {
   constructor() {
     super();
@@ -12,7 +12,6 @@ class ProductsListContainer extends Component {
 
   componentDidMount = () => this.fetchUser();
 
-
   onFormSubmit = async (data) => {
     const { onFormSubmit,id ,user} = this.props;
     this.setState({ errorForm: null, successForm: null, loadingForm: true });
@@ -20,6 +19,7 @@ class ProductsListContainer extends Component {
       data.myId = id;
       const success = await onFormSubmit(data);
       this.setState({ errorForm: null, successForm: success, loadingForm: false});
+      setTimeout(() => {Actions.map()}, 2000);
     } catch (error) {
       this.setState({ errorForm: error.message, successForm: null, loadingForm: false  });
     }

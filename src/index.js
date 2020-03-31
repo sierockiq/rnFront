@@ -11,24 +11,57 @@ import theme from '../native-base-theme/variables/commonColor';
 
 import Routes from './routes/index';
 import Loading from './components/UI/Loading';
+import RegistrationContainer from './containers/Login/RegistrationContainer';
+import LoginContainer from './containers/Login/LoginContainer';
+import deviceStorage from "./lib/device-storage";
+import axios from 'axios';
+import config from './constants/config';
 
 class App extends React.Component {
   constructor() {
     super();
-    this.state = { loading: true };
+    this.state = { loading: true, showLogin:false, user:null  };
   }
 
   async componentDidMount() {
     SplashScreen.hide();
-    this.setState({ loading: false });
+    try{
+      let token = await deviceStorage.loadJWT("token");
+      console.log("token"+token)
+      let response = await axios.get(config.apiBaseUrl+"/isTokenValid",{headers: {'token': token}});
+      console.log(response)
+      if(response.status == 200 && response.data){
+        this.setState({ token : token ,loading:false});
+      }else{
+        this.setState({ showLogin : true,loading:false });
+      }
+    }catch(error){
+      this.setState({ showLogin : true,loading:false });
+    }
+
+  }
+
+  showLogin(){
+    this.setState({ showLogin:true ,loading:false})
+  }
+
+  onLoginSuccess(userInfos){
+    deviceStorage.saveKey("token",userInfos.jwtToken)
+    this.setState({loading:false, showLogin:false,token:userInfos.jwtToken })
   }
 
   render() {
-    const { loading } = this.state;
+    const { loading , token, showLogin } = this.state;
     const { store, persistor } = this.props;
-
+    console.log(this.state)
     if (loading) {
       return <Loading />;
+    }
+    if(showLogin){
+      return <LoginContainer onLoginSuccess={this.onLoginSuccess.bind(this)}/>
+    }
+    if(!token){
+      return <RegistrationContainer  showLogin={this.showLogin.bind(this)} />
     }
 
     return (

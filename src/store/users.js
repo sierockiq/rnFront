@@ -17,83 +17,95 @@ export default [
                 "quantity": 79,
                 "price": 50,
                 "productTypeName": "tomate",
+                "boughtQuantity":0
             },
             {
                 "id": 4,
                 "initialQuantity": 80,
                 "quantity": 79,
                 "price": 50,
-                "productTypeName": "radis"
+                "productTypeName": "radis",
+                "boughtQuantity":0
             },
             {
                 "id": 16,
                 "initialQuantity": 80,
                 "quantity": 79,
                 "price": 50,
-                "productTypeName": "melon"
+                "productTypeName": "melon",
+                "boughtQuantity":0
             },
             {
                 "id": 14,
                 "initialQuantity": 80,
                 "quantity": 79,
                 "price": 50,
-                "productTypeName": "concombre"
+                "productTypeName": "concombre",
+                "boughtQuantity":0
             },
             {
                 "id": 26,
                 "initialQuantity": 80,
                 "quantity": 79,
                 "price": 50,
-                "productTypeName": "tomate"
+                "productTypeName": "tomate",
+                "boughtQuantity":0
             },
             {
                 "id": 24,
                 "initialQuantity": 80,
                 "quantity": 79,
                 "price": 50,
-                "productTypeName": "tomate"
+                "productTypeName": "tomate",
+                "boughtQuantity":0
             },
             {
                 "id": 36,
                 "initialQuantity": 80,
                 "quantity": 79,
                 "price": 50,
-                "productTypeName": "tomate"
+                "productTypeName": "tomate",
+                "boughtQuantity":0
             },
             {
                 "id": 34,
                 "initialQuantity": 80,
                 "quantity": 79,
                 "price": 50,
-                "productTypeName": "tomate"
+                "productTypeName": "tomate",
+                "boughtQuantity":0
             },
             {
                 "id": 46,
                 "initialQuantity": 80,
                 "quantity": 79,
                 "price": 50,
-                "productTypeName": "tomate"
+                "productTypeName": "tomate",
+                "boughtQuantity":0
             },
             {
                 "id": 44,
                 "initialQuantity": 80,
                 "quantity": 79,
                 "price": 50,
-                "productTypeName": "tomate"
+                "productTypeName": "tomate",
+                "boughtQuantity":0
             },
             {
                 "id": 56,
                 "initialQuantity": 80,
                 "quantity": 79,
                 "price": 50,
-                "productTypeName": "tomate"
+                "productTypeName": "tomate",
+                "boughtQuantity":0
             },
             {
                 "id": 54,
                 "initialQuantity": 80,
                 "quantity": 79,
                 "price": 50,
-                "productTypeName": "tomate"
+                "productTypeName": "tomate",
+                "boughtQuantity":0
             },
         ],
         "sales": null,

@@ -4,8 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import DefaultProps from '../constants/navigation';
 import AppConfig from '../constants/config';
 
-import { ArticlesForm, ArticlesList, ArticlesSingle,
-  ProductsForm, ProductsList, ProductsSingle ,
+import {ProductsForm, ProductsList,MyProductsList, ProductsSingle ,
   CommandsForm, CommandsList, CommandsSingle
   ,MapContainer} from '../containers';
 
@@ -43,33 +42,24 @@ const Index = (
 
 
         <Stack
-          key="articlesList"
-          title="Articles List"
+          key="commandsList"
+          title="Commandes"
           icon={() => <Icon name="shopping-basket" size={28} {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="articlesList" component={ArticlesList} />
-          <Scene key="articlesSingle" component={ArticlesSingle} />
+          <Scene key="commandsList" component={CommandsList} />
+          <Scene key="commandSingle" component={CommandsSingle} />
         </Stack>
 
         <Stack
           key="productsList"
-          title="Product List"
+          title="Produits"
           icon={() => <Icon name="product-hunt" size={28} {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="productsList" component={ProductsList} />
+          <Scene key="myProductsList" component={MyProductsList} />
           <Scene key="productSingle" component={ProductsSingle} />
-        </Stack>
-
-
-        <Stack
-          key="form"
-          title="Articles Form"
-          icon={() => <Icon name="phone" size={28} {...DefaultProps.icons} />}
-          {...DefaultProps.navbarProps}
-        >
-          <Scene key="form" component={ArticlesForm} />
+          <Scene key="productForm" component={ProductsForm} />
         </Stack>
       </Tabs>
     </Scene>

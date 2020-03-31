@@ -5,20 +5,24 @@ import { FlatList, TouchableOpacity, Image  } from 'react-native';
 import {
   Container, Card, CardItem, Body, Text, Button,View,Form,Input
 } from 'native-base';
-import { Error, Spacer,Messages } from '../UI';
+import { Error, Spacer,Messages,Loading } from '../UI';
 import { errorMessages } from '../../constants/messages';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {getImage} from '../../lib/images'
 
 
-const ProductsList = ({
-  error, loading,  reFetch , user,onFormSubmit , loadingForm , errorForm,successForm
+const MyProductsList = ({
+  error, loading,  reFetch , myProducts, deleteProduct, loadingForm , errorForm,successForm
 }) => {
+  if (loading) {
+    return <Loading />;
+  }
+
   if (error) {
     return <Error content={error} tryAgain={reFetch} />;
   }
 
-  if (!user) {
+  if (!myProducts.length) {
     return <Error content={errorMessages.userEmpty} />;
   }
 
@@ -28,7 +32,7 @@ const ProductsList = ({
     {loadingForm && <Messages type="info" message="Loading..." />}
     {successForm && <Messages type="success" message={successForm} />}
       <FlatList
-        data={user.products}
+        data={myProducts}
         renderItem={({ item }) => (
           <Card style={{ flex:1,opacity:  1}} >
             <CardItem cardTitle style={{ flex:1}}>
@@ -51,45 +55,33 @@ const ProductsList = ({
                 </CardItem>
               </View>
               <View style={{ flex:  1,padding:10,alignItems:'center'}}>
-                 <Input
-                   style={{flex:1}}
-                   type="number"
-                   placeholder="Quantité voulue"
-                   keyboardType="numeric"
-                   defaultValue={item.boughtQuantity?String(item.boughtQuantity):""}
-                   onChangeText={(value) => item.boughtQuantity=value}
-                 />
+                 <Icon name="trash" size={30}  onPress={() =>  deleteProduct(item.id)}   />
               </View>
             </View>
           </Card>
         )}
         keyExtractor={item => item.id.toString()}
           />
-        <Button block onPress={() => onFormSubmit(user)} disabled={loadingForm}>
-          <Text>{loadingForm ? 'Loading' : 'Commander'}</Text>
+        <Button  onPress={() => Actions.productForm()} >
+          <Text>Ajouter</Text>
         </Button>
     </View>
   );
 };
 
-ProductsList.propTypes = {
+MyProductsList.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool,
-  user:
-    PropTypes.shape({
-      id: PropTypes.number,
-      username: PropTypes.string,
-      //TODO
-    }),
+  myProducts:PropTypes.arrayOf(PropTypes.shape({})),
   reFetch: PropTypes.func,
-  onFormSubmit: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired,
   errorForm: PropTypes.string,
   loadingForm: PropTypes.bool,
   successForm: PropTypes.string,
 };
 
-ProductsList.defaultProps = {
-  user: {},
+MyProductsList.defaultProps = {
+  myProducts: [],
   error: null,
   reFetch: null,
   loading: false,
@@ -98,4 +90,4 @@ ProductsList.defaultProps = {
   loadingForm: false,
 };
 
-export default ProductsList;
+export default MyProductsList;

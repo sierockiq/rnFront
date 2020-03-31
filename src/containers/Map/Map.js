@@ -32,7 +32,6 @@ class MapContainer extends Component {
    */
   render = () => {
     const { loading, error, users } = this.state;
-
     return <Map loading={loading} error={error} users={users} reFetch={this.fetchUsers} />;
   };
 }

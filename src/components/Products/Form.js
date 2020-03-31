@@ -22,16 +22,16 @@ const ProductsForm = ({
   } = useForm({ defaultValues });
 
   useEffect(() => {
-    register({ name: 'email' }, { required: errorMessages.missingEmail });
+    register({ name: 'name' }, { required: errorMessages.missingEmail });
+    register({ name: 'price' }, { required: "price required" ,min: {value: 0,message: 'prix sup 0'   } });
+    register({ name: 'quantity' }, { required: "quantity required" ,min: {value: 0,message: 'quantity sup 0'   } });
   }, [register]);
 
+  console.log(errors)
   return (
     <Container>
       <Content padder>
-        <Header
-          title="Example form"
-          content="When you submit the form, it'll simply save to your redux store"
-        />
+        <Header title="Nouveau Produit"  />
 
         {error && <Messages message={error} />}
         {loading && <Messages type="info" message="Loading..." />}
@@ -39,17 +39,45 @@ const ProductsForm = ({
 
         <Form>
           <Item stackedLabel>
-            <Label>Email*</Label>
+            <Label>Nom</Label>
             <Input
               type="text"
+              name="name"
               autoCapitalize="none"
-              placeholder="james@doe.com"
-              keyboardType="email-address"
-              defaultValue={defaultValues.email || ''}
-              onChangeText={(value) => setValue('email', value)}
+              placeholder="Tomate"
+              defaultValue={defaultValues.name || ''}
+              onChangeText={(value) => setValue('name', value)}
             />
           </Item>
-          {errors.email && <Text>{errors.email.message}</Text>}
+          {errors.name && <Text>{errors.name.message}</Text>}
+
+          <Item stackedLabel>
+            <Label>Prix</Label>
+            <Input
+              type="text"
+              name="price"
+              autoCapitalize="none"
+              placeholder="2.6"
+              keyboardType="numeric"
+              defaultValue={defaultValues.price || ''}
+              onChangeText={(value) => setValue('price', value)}
+            />
+          </Item>
+          {errors.price && <Text>{errors.price.message}</Text>}
+
+          <Item stackedLabel>
+            <Label>Quantité disponible</Label>
+            <Input
+              type="text"
+              name="quantity"
+              autoCapitalize="none"
+              placeholder="10"
+              keyboardType="numeric"
+              defaultValue={defaultValues.quantity || ''}
+              onChangeText={(value) => setValue('quantity', value)}
+            />
+          </Item>
+          {errors.quantity && <Text>{errors.quantity.message}</Text>}
 
           <Spacer size={20} />
 

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import Api from '../lib/api';
 import HandleErrorMessage from '../lib/format-error-messages';
-import initialState from '../store/products';
+import initialState from '../store/commands';
 import Config from '../constants/config';
 import { getFeaturedImageUrl } from '../lib/images';
 import { ucfirst, stripHtml } from '../lib/string';
@@ -27,27 +27,31 @@ export default {
      * @returns {Promise[obj]}
      */
     async saveAll(user) {
-      console.log(user)
       try {
-        let commands = [];
+        let commands = {listCommands:[]};
+        let price =0,quantity=0;
         user.products.forEach((product)=>{
-          if(product.quantiteVoulue){
-            if(product.quantity<parseInt(product.quantiteVoulue)){
+          if(product.boughtQuantity){
+            if(product.quantity<parseInt(product.boughtQuantity)){
               throw new Error(errorMessages.dataIncorrect)
             }
-            commands.push({
+            commands.listCommands.push({
               productId : product.id,
               farmerId : user.id,
-              quantite : product.quantiteVoulue,
-              userId : user.myId
+              quantite : product.boughtQuantity,
+              userId : user.myId,
+              priceByKg : product.price,
+              price : product.price * product.boughtQuantity,
+              name : product.productTypeName
             })
+            price += product.boughtQuantity * product.price;
+            quantity += parseInt(product.boughtQuantity);
           }
         });
-        user.products.forEach((product)=>{
-          product.quantiteVoulue=0;
-        });
-        console.log(commands)
-        return successMessages.defaultForm; // Message for the UI
+        commands.price=price;
+        commands.quantity=quantity;
+        dispatch.commands.replaceLastBoughtCommand(commands);
+        return successMessages.commandSaved; // Message for the UI
       } catch (error) {
         throw HandleErrorMessage(error);
       }
@@ -59,19 +63,15 @@ export default {
    */
   reducers: {
     /**
-     * Replace list in store
+     * Save form data
      * @param {obj} state
      * @param {obj} payload
      */
-    replace(state, payload) {
-      let newList = null;
-      const { data, headers, page } = payload;
-
-      return data
-        ? {
-          ...state
-        }
-        : initialState;
+    replaceLastBoughtCommand(state, payload) {
+      return {
+        ...state,
+        userLastCommand: payload,
+      };
     },
 
 

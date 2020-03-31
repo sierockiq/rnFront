@@ -3,11 +3,13 @@ export const generalMessages = {};
 export const successMessages = {
   // Defaults
   defaultForm: 'Success - Form Saved',
-
   // Member
   login: 'You are now logged in',
   signUp: 'You are now signed up. Please login to continue.',
   forgotPassword: 'Password reset. Please check your email.',
+
+  //command
+  commandSaved : "Votre commande a été enregistrée avec succés.",
 };
 
 export const errorMessages = {

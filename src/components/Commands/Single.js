@@ -1,73 +1,81 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Image } from 'react-native';
-import {
-  Container, Content, Card, CardItem, Body, H3, Text,
-} from 'native-base';
-import { Loading, Error, Spacer } from '../UI';
-import { errorMessages } from '../../constants/messages';
+import { Actions } from 'react-native-router-flux';
 
-const ArticlesSingle = ({
-  error, loading, article, reFetch,
+import {
+  Container, Card, CardItem, Body, Text, Button,View,Content,List
+} from 'native-base';
+import { Error, Spacer } from '../UI';
+import { errorMessages } from '../../constants/messages';
+import {getImage} from '../../lib/images'
+//TODO delete when corrected. content is scrollview and bad 2 scrolleview on same page
+import { YellowBox } from 'react-native'
+YellowBox.ignoreWarnings([
+  'VirtualizedLists should never be nested', // TODO: Remove when fixed
+])
+
+const CommandSingle = ({
+  error, loading, commands
 }) => {
   if (error) {
-    return <Error content={error} tryAgain={reFetch} />;
+    return <Error content={error}  />;
   }
 
-  if (loading) {
-    return <Loading content={loading} />;
+  if (commands && commands.listCommands && commands.listCommands.length < 1) {
+    return <Error content={errorMessages.articlesEmpty} />;
   }
-
-  if (Object.keys(article).length < 1) {
-    return <Error content={errorMessages.articles404} />;
-  }
-
+  console.log(commands)
   return (
-    <Container>
-      <Content padder>
-        {!!article.image && (
-          <Image
-            source={{ uri: article.image }}
-            style={{
-              height: 200, width: null, flex: 1, resizeMode: 'contain',
-            }}
+    <Container style={{ padding: 10,flex:1}}>
+      <Content >
+        <View  style={{ flex:1,flexDirection:'row'}}>
+            <Text style={{ flex:1}} > Nom</Text>
+            <Text style={{ flex:1}} > Quantité(kg)</Text>
+            <Text style={{ flex:1}} > Prix(€)</Text>
+        </View>
+
+          <List
+          style={{flex:1}}
+            dataArray={commands.listCommands}
+            renderItem={({ item }) => (
+              <Card style={{ flex:1,opacity:  1}} >
+                <CardItem cardTitle style={{ flex:1}}>
+                    <Text style={{ flex:2}} > {item.name}</Text>
+                    <Text style={{ flex:1}}>{item.quantity} kg</Text>
+                    <Text style={{ flex:1}}>{item.price} €</Text>
+                </CardItem>
+              </Card>
+            )}
+            keyExtractor={item => item.id.toString()}
           />
-        )}
 
-        <Spacer size={25} />
-        <H3>{article.name}</H3>
-        <Spacer size={15} />
 
-        {!!article.content && (
-          <Card>
-            <CardItem header bordered>
-              <Text>Content</Text>
-            </CardItem>
-            <CardItem>
-              <Body>
-                <Text>{article.content}</Text>
-              </Body>
-            </CardItem>
-          </Card>
-        )}
-        <Spacer size={20} />
+        <Card style={{ flex:1,opacity:  1}} >
+          <CardItem cardTitle style={{ flex:1}}>
+              <Text style={{ flex:2}} > Total</Text>
+              <Text style={{ flex:1}}>{commands.quantity} kg</Text>
+              <Text style={{ flex:1}}>{commands.price} €</Text>
+          </CardItem>
+        </Card>
       </Content>
-    </Container>
+    </Container >
   );
 };
 
-ArticlesSingle.propTypes = {
+CommandSingle.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool,
-  article: PropTypes.shape(),
-  reFetch: PropTypes.func,
+  commands : PropTypes.shape({
+    listCommands: PropTypes.arrayOf(PropTypes.shape({})),
+    price:PropTypes.number,
+    quantity : PropTypes.number
+  }),
 };
 
-ArticlesSingle.defaultProps = {
+CommandSingle.defaultProps = {
+  commands: {},
   error: null,
   loading: false,
-  article: {},
-  reFetch: null,
 };
 
-export default ArticlesSingle;
+export default CommandSingle;

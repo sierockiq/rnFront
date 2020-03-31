@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Layout from '../../components/Commands/Form';
-
+import Layout from '../../components/Products/Form';
+import { Actions } from 'react-native-router-flux';
 class ProductsFormContainer extends Component {
   constructor() {
     super();
@@ -18,6 +18,7 @@ class ProductsFormContainer extends Component {
     try {
       const success = await onFormSubmit(data);
       this.setState({ success, error: null, loading: false });
+      setTimeout(() => {Actions.myProductsList()}, 2000);
     } catch (error) {
       this.setState({ loading: false, success: null, error: error.message });
     }
@@ -52,7 +53,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onFormSubmit: dispatch.articles.save,
+  onFormSubmit: dispatch.products.save,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsFormContainer);
